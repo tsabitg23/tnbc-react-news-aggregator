@@ -2,10 +2,12 @@
 import { HeaderDrawer } from "./Drawer";
 import { useState } from "react";
 import { HiAdjustments, HiOutlineSearch } from "react-icons/hi";
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";
 import { setFromDate } from "@/lib/features/combinedNews/combinedNewsSlice";
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 export default function Header(){
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -75,15 +77,11 @@ export default function Header(){
                 </ul>
                 </nav>
             </div>
-            <Modal show={openModalSearch} onClose={() => setOpenModalSearch(false)}>
-              <Modal.Body>
-                <div className="space-y-6">
-                      {TextInputComponent}
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={() => searchNews()}>Search</Button>
-              </Modal.Footer>
+            <Modal open={openModalSearch} showCloseIcon={false} onClose={()=>setOpenModalSearch(false)} center>
+              <div className="flex flex-col">
+                {TextInputComponent}
+                <Button onClick={()=>searchNews()} className="mt-4">Search</Button>
+              </div>
             </Modal>
         </header>
     )
