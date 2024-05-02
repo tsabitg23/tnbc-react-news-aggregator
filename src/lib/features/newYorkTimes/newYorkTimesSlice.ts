@@ -91,11 +91,11 @@ export const newYorkTimesApiSlice = createApi({
       getNYTArticleSearch: build.query<NewYorkTimesArticleSearchQueryResponse, GetNewsQueryParameters>({
         query: (params) => {
           const queryParameter = getQueryString({
-            offset: params.pageSize, 
+            offset: params.pageSize * (params.page - 1), 
             page: params.page,
             q: params.search,
-            ...(params.fromDate ? {begin_date: format(params.fromDate, 'yyyyMMdd')} : {}),
-            ...(params.toDate ? {end_date: format(params.toDate, 'yyyyMMdd')} : {}),
+            ...(params.fromDate ? {begin_date: format(new Date(params.fromDate), 'yyyyMMdd')} : {}),
+            ...(params.toDate ? {end_date: format(new Date(params.toDate), 'yyyyMMdd')} : {}),
           })
           return `search/v2/articlesearch.json?` + queryParameter;
         },

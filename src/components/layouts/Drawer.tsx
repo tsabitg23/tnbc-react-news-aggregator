@@ -3,9 +3,10 @@
 import { NEWS_SOURCE } from "@/lib/common/constants";
 import { setFromDate, setSourceEnabled, setToDate } from "@/lib/features/combinedNews/combinedNewsSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {  Button, Checkbox, Datepicker, Drawer, Label } from "flowbite-react";
+import {  Alert, Button, Checkbox, Datepicker, Drawer, Label } from "flowbite-react";
 import { ChangeEventHandler, useState } from "react";
 import { HiAdjustments } from "react-icons/hi";
+import { sub } from "date-fns";
 
 interface DrawerProps {
     isOpen: boolean;
@@ -94,13 +95,20 @@ export function HeaderDrawer(props: DrawerProps) {
               <Label htmlFor="title" className="mb-2 block">
                 Date from
               </Label>
-              <Datepicker onSelectedDateChanged={(date:Date)=>onChangeDate('from', date)}/>
+              <Datepicker defaultDate={sub(new Date(), {months: 6})} onSelectedDateChanged={(date:Date)=>onChangeDate('from', date)}/>
             </div>
             <div className="mb-6">
               <Label htmlFor="title" className="mb-2 block">
                 Date to
               </Label>
               <Datepicker onSelectedDateChanged={(date:Date)=>onChangeDate('to', date)}/>
+            </div>
+            <div className="my-4">
+              <Alert color="warning" withBorderAccent>
+                <span>
+                  <span className="font-medium">Warning!</span> Some of API in certain case (i.e Headlines) doesn't support filter by date, categories, etc.
+                </span>
+              </Alert>
             </div>
             <Button className="w-full" onClick={onSaveClick}>
               {/* <HiCalendar className="mr-2" /> */}

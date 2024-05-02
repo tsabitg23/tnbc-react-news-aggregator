@@ -52,8 +52,8 @@ export const newsApiSlice = createApi({
             searchIn: NEWS_API_SEARCH_IN, 
             language: NEWS_API_LANGUAGE,
             q: params.search,
-            ...(params.fromDate ? {from: params.fromDate.toISOString()} : {}),
-            ...(params.toDate ? {to: params.toDate.toISOString()} : {})
+            ...(params.fromDate ? {from: params.fromDate} : {}),
+            ...(params.toDate ? {to: params.toDate} : {})
           })
           return `everything?` + queryStringParameter;
         },

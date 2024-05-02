@@ -58,10 +58,10 @@ export const guardianApiSlice = createApi({
             queryParams['query-fields'] = 'body,thumbnail,webTitle'
           }
           if(params.fromDate){
-            queryParams['from-date'] = params.fromDate.toISOString();
+            queryParams['from-date'] = params.fromDate;
           }
           if(params.toDate){
-            queryParams['to-date'] = params.toDate.toISOString();
+            queryParams['to-date'] = params.toDate;
           }
           return `search?` + getQueryString(queryParams)
         },

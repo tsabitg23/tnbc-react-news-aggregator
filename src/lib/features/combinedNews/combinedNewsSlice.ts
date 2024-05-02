@@ -18,8 +18,8 @@ interface CombinedNewsState {
     newsApiEnabled: boolean;
     guardianEnabled: boolean;
     newYorkTimesEnabled: boolean;
-    startDate: string;
-    endDate: string;
+    startDate: string | null;
+    endDate: string | null;
 }
 
 interface UpdateTotalPagesPayload {
@@ -37,8 +37,8 @@ const initialState: CombinedNewsState = {
     guardianTotalPages: 100,
     newsApiTotalPages: 100,
     newYorkTimesTotalPages: 100,
-    startDate: new Date().toISOString(),
-    endDate: new Date().toISOString()
+    startDate: null,
+    endDate: null
 };
 
 export const combinedNewsData = createSlice({

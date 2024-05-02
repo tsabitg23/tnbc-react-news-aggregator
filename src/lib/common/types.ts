@@ -12,8 +12,8 @@ export interface GetNewsQueryParameters {
     pageSize: number;
     page: number;
     search?: string;
-    fromDate?: Date;
-    toDate?: Date;
+    fromDate?: string | null;
+    toDate?: string | null;
 }
 
 export interface NewYorkTimesQueryParameters extends GetNewsQueryParameters{
