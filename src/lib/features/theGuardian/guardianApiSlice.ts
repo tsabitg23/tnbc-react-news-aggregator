@@ -33,7 +33,7 @@ export interface GuardianApiResponse {
     pages: number;
 }
 
-interface GuardianApiQueryResponse {
+export interface GuardianApiQueryResponse {
     response: GuardianApiResponse;
 }
 

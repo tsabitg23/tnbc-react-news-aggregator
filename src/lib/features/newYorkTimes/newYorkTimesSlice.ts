@@ -38,7 +38,7 @@ export interface NewYorkTimesResult {
     multimedia: NewYorkTimesResultMultimedia[];
 }
 
-interface NewYorkTimesTopStoriesQueryResponse {
+export interface NewYorkTimesTopStoriesQueryResponse {
     num_results: number;
     results: NewYorkTimesResult[];
 }
@@ -68,7 +68,7 @@ interface NYTSearchResponse {
   meta: NYTSearchMeta;
 }
 
-interface NewYorkTimesArticleSearchQueryResponse {
+export interface NewYorkTimesArticleSearchQueryResponse {
   response: NYTSearchResponse;
 }
 

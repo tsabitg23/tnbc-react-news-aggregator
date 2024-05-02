@@ -14,9 +14,11 @@ interface DrawerProps {
     onSave: () => void;
 }
 
+const defaultFromDate = sub(new Date(), {months: 1});
+
 export function HeaderDrawer(props: DrawerProps) {
   const {isOpen, handleClose, onSave} = props;
-  const [fromDate, setStateFromDate] = useState<Date>(new Date());
+  const [fromDate, setStateFromDate] = useState<Date>(defaultFromDate);
   const [toDate, setStateToDate] = useState<Date>(new Date());
   const dispatch = useAppDispatch();
   const sourceOptions = Object.keys(NEWS_SOURCE);
@@ -52,7 +54,6 @@ export function HeaderDrawer(props: DrawerProps) {
   const onSaveClick = () => {
     dispatch(setFromDate(fromDate.toISOString()));
     dispatch(setToDate(toDate.toISOString()));
-    console.log(sourceOptionMapping)
     sourceOptions.forEach((source) => {
         dispatch(setSourceEnabled({source: NEWS_SOURCE[source], enabled: sourceOptionMapping[source]}));
     });
@@ -95,7 +96,7 @@ export function HeaderDrawer(props: DrawerProps) {
               <Label htmlFor="title" className="mb-2 block">
                 Date from
               </Label>
-              <Datepicker defaultDate={sub(new Date(), {months: 6})} onSelectedDateChanged={(date:Date)=>onChangeDate('from', date)}/>
+              <Datepicker defaultDate={defaultFromDate} onSelectedDateChanged={(date:Date)=>onChangeDate('from', date)}/>
             </div>
             <div className="mb-6">
               <Label htmlFor="title" className="mb-2 block">
@@ -106,7 +107,7 @@ export function HeaderDrawer(props: DrawerProps) {
             <div className="my-4">
               <Alert color="warning" withBorderAccent>
                 <span>
-                  <span className="font-medium">Warning!</span> Some of API in certain case (i.e Headlines) doesn't support filter by date, categories, etc.
+                  <span className="font-medium">Warning!</span> Some of API in certain case (i.e Headlines) doesn't support filter by date, categories, etc.<br/> Also Free tier newsAPI can only get news from a month back
                 </span>
               </Alert>
             </div>
