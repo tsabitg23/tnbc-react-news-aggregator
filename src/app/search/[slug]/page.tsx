@@ -72,8 +72,8 @@ export default function SearchResult({ params }: { params: { slug: string } }){
     const resultCount = newsApiTotalCount + guardianTotalCount + newYorkTimesTotalCount;
 
     return (
-        <main className="flex min-h-screen flex-col py-24 px-64" ref={scrollToTop}>
-            <div className="flex flex-row items-center">
+        <main className="flex min-h-screen flex-col p-4 md:py-24 md:px-64" ref={scrollToTop}>
+            <div className="flex flex-row items-center mt-12 md:mt-0">
                 <span><HiArrowLeft className="text-xl cursor-pointer mr-4" onClick={onClickBack}/> </span><span className="text-2xl text-passive">Results for <span className="font-bold text-blacky">{params.slug}</span></span>
             </div>
             <div className="mt-4 text-passive">

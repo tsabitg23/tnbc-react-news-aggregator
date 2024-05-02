@@ -11,7 +11,7 @@ interface NewsCardProps {
 
 export default function NewsCard(props: NewsCardProps) {
     const {article, type} = props;
-    const cardClass = type === 'headlines' ? 'block max-w-sm' : 'flex flex-row'
+    const cardClass = type === 'headlines' ? 'block max-w-sm' : 'block md:flex md:flex-row md:width-full'
     return (
         <Link href={article.url} target="_blank" className={`${cardClass} bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700`}>
             <div>

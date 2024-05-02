@@ -65,7 +65,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col py-24 px-64" ref={scrollToTop}> 
+    <main className="flex min-h-screen flex-col p-4 md:py-24 md:px-64" ref={scrollToTop}> 
       <div className="mb-4">
         <h1 className="text-4xl font-bold">Headlines</h1>
       </div>
@@ -82,12 +82,14 @@ export default function Home() {
       <div className="flex justify-center">
         {isContentStillLoading && (<Spinner size="xl" />)}
       </div>
-      { combinedNews.length > 0 && (
-          <div className="flex items-center justify-center">
-            <Pagination currentPage={currentPage} totalPages={maxTotalPages} onPageChange={onPageChange} showIcons />
-          </div>
-        )
-      }
+      <div>
+        { combinedNews.length > 0 && (
+            <div className="flex items-center justify-center">
+              <Pagination currentPage={currentPage} totalPages={maxTotalPages} onPageChange={onPageChange} showIcons />
+            </div>
+          )
+        }
+      </div>
     </main>
   );
 }
