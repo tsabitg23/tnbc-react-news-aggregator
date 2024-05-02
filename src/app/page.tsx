@@ -74,6 +74,7 @@ export default function Home() {
           combinedNews.map((article, index) => (
             <NewsCard 
               key={index}
+              type="headlines"
               article={article} />
           ))
         }

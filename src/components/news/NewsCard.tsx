@@ -6,19 +6,23 @@ import { News } from "@/lib/common/types";
 
 interface NewsCardProps {
     article: News;
+    type: 'headlines' | 'search';
 }
 
 export default function NewsCard(props: NewsCardProps) {
-    const {article} = props;
+    const {article, type} = props;
+    const cardClass = type === 'headlines' ? 'block max-w-sm' : 'flex flex-row'
     return (
-        <Link href={article.url} target="_blank" className="block max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-            {
-                article.imageUrl ? (
-                    <img src={article.imageUrl} alt={article.title} className="w-full h-48 object-cover rounded-t-lg" />
-                ) : (
-                    <Image src="/not_found.jpg" alt={article.title} width={400} height={200} className="w-full h-48 object-cover rounded-t-lg" />
-                )
-            }
+        <Link href={article.url} target="_blank" className={`${cardClass} bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700`}>
+            <div>
+                {
+                    article.imageUrl ? (
+                        <img src={article.imageUrl} alt={article.title} className="w-full h-48 object-cover rounded-t-lg" />
+                    ) : (
+                        <Image src="/not_found.jpg" alt={article.title} width={400} height={200} className="w-full h-48 object-cover rounded-t-lg" />
+                    )
+                }
+            </div>
             <div className="p-4">
                 <span className="text-passive text-xs">{article.sourceId} - {article.sourceName}</span>
                 <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">

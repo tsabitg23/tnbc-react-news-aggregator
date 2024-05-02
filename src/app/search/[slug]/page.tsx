@@ -1,5 +1,5 @@
 'use client'
-import NewsSearchResultCard from "@/components/news/NewsSearchResultCard";
+import NewsCard from "@/components/news/NewsCard";
 import { NEWS_SOURCE } from "@/lib/common/constants";
 import { GetNewsQueryParameters, News } from "@/lib/common/types";
 import { formatFromGuardian, formatFromNewsApi, formatFromNewYorkTimes, formatFromNewYorkTimesSearch, selectMaxTotalPages, setTotalPages } from "@/lib/features/combinedNews/combinedNewsSlice";
@@ -82,7 +82,7 @@ export default function SearchResult({ params }: { params: { slug: string } }){
             <div id="content" className="mt-4 grid grid-cols-1 gap-4" >
                 {
                     combinedNews.map((article, index) => {
-                        return <NewsSearchResultCard key={index} article={article}/>
+                        return <NewsCard type={'search'} key={index} article={article}/>
                     })
                 }
             </div>
