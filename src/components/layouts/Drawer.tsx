@@ -1,10 +1,10 @@
 "use client";
 
 import { NEWS_SOURCE } from "@/lib/common/constants";
-import { setSourceEnabled } from "@/lib/features/combinedNews/combinedNewsSlice";
+import { setFromDate, setSourceEnabled, setToDate } from "@/lib/features/combinedNews/combinedNewsSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {  Button, Checkbox, Datepicker, Drawer, Label } from "flowbite-react";
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import { HiAdjustments } from "react-icons/hi";
 
 interface DrawerProps {
@@ -15,6 +15,8 @@ interface DrawerProps {
 
 export function HeaderDrawer(props: DrawerProps) {
   const {isOpen, handleClose, onSave} = props;
+  const [fromDate, setStateFromDate] = useState<Date>(new Date());
+  const [toDate, setStateToDate] = useState<Date>(new Date());
   const dispatch = useAppDispatch();
   const sourceOptions = Object.keys(NEWS_SOURCE);
 
@@ -47,8 +49,25 @@ export function HeaderDrawer(props: DrawerProps) {
   }  
 
   const onSaveClick = () => {
+    dispatch(setFromDate(fromDate.toISOString()));
+    dispatch(setToDate(toDate.toISOString()));
+    console.log(sourceOptionMapping)
+    sourceOptions.forEach((source) => {
+        dispatch(setSourceEnabled({source: NEWS_SOURCE[source], enabled: sourceOptionMapping[source]}));
+    });
     onSave();
   }
+
+  const onChangeDate = (key:string, date: Date) =>{
+    switch(key){
+        case 'from':
+            setStateFromDate(date);
+            break;
+        case 'to':
+          setStateToDate(date);
+            break;
+    }
+  } 
 
   return (
     <>
@@ -75,13 +94,13 @@ export function HeaderDrawer(props: DrawerProps) {
               <Label htmlFor="title" className="mb-2 block">
                 Date from
               </Label>
-              <Datepicker />
+              <Datepicker onSelectedDateChanged={(date:Date)=>onChangeDate('from', date)}/>
             </div>
             <div className="mb-6">
               <Label htmlFor="title" className="mb-2 block">
                 Date to
               </Label>
-              <Datepicker />
+              <Datepicker onSelectedDateChanged={(date:Date)=>onChangeDate('to', date)}/>
             </div>
             <Button className="w-full" onClick={onSaveClick}>
               {/* <HiCalendar className="mr-2" /> */}

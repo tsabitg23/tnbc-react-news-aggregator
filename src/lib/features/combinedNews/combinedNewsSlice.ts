@@ -5,6 +5,7 @@ import { News } from '@/lib/common/types';
 import { NEWS_SOURCE } from '@/lib/common/constants';
 import { RootState } from '@/lib/store';
 import { NewYorkTimesResult, NYTSearchDoc } from '../newYorkTimes/newYorkTimesSlice';
+import { set } from 'date-fns';
 
 interface CombinedNewsState {
     news: News[];
@@ -17,8 +18,8 @@ interface CombinedNewsState {
     newsApiEnabled: boolean;
     guardianEnabled: boolean;
     newYorkTimesEnabled: boolean;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
 }
 
 interface UpdateTotalPagesPayload {
@@ -36,8 +37,8 @@ const initialState: CombinedNewsState = {
     guardianTotalPages: 100,
     newsApiTotalPages: 100,
     newYorkTimesTotalPages: 100,
-    startDate: new Date(),
-    endDate: new Date()
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString()
 };
 
 export const combinedNewsData = createSlice({
@@ -104,6 +105,13 @@ export const combinedNewsData = createSlice({
                 break;
         }
     },
+    setFromDate(state, action: PayloadAction<string>){
+        console.log('setFromDate', action.payload,'===========')
+        state.startDate = action.payload;
+    },
+    setToDate(state, action: PayloadAction<string>){
+        state.endDate = action.payload;
+    }
   },
 });
 
@@ -112,7 +120,15 @@ export const selectMaxTotalPages = (state: RootState) => {
     return Math.max(guardianTotalPages, newsApiTotalPages, newYorkTimesTotalPages);
 };
 
-export const { updateCombinedNewsData, addNewsApiData, addGuardianApiData, setTotalPages, setSourceEnabled } = combinedNewsData.actions;
+export const { 
+    updateCombinedNewsData, 
+    addNewsApiData, 
+    addGuardianApiData, 
+    setTotalPages, 
+    setSourceEnabled,
+    setFromDate,
+    setToDate
+} = combinedNewsData.actions;
 
 export const formatFromNewsApi = (article: Article): News => {
     return {

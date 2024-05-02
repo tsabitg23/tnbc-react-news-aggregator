@@ -3,7 +3,7 @@ import { Pagination, Spinner } from "flowbite-react";
 import NewsCard from "@/components/news/NewsCard";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect, useRef, useState } from "react";
-import { addGuardianApiData, addNewsApiData, formatFromGuardian, formatFromNewsApi, formatFromNewYorkTimes, selectMaxTotalPages, setTotalPages } from "@/lib/features/combinedNews/combinedNewsSlice";
+import { addGuardianApiData, addNewsApiData, formatFromGuardian, formatFromNewsApi, formatFromNewYorkTimes, selectMaxTotalPages, setSourceEnabled, setTotalPages } from "@/lib/features/combinedNews/combinedNewsSlice";
 import { useNewsApiGetHeadlineQuery } from "@/lib/features/newsApi/newsApiSlice";
 import { News } from "@/lib/common/types";
 import { useGetGuardianContentQuery } from "@/lib/features/theGuardian/guardianApiSlice";
@@ -17,6 +17,14 @@ export default function Home() {
   const newsApiPageSize = useAppSelector((state) => state.combinedNews.newsApiPageSize);
   const guardianPageSize = useAppSelector((state) => state.combinedNews.guardianPageSize);
   const newYorkTimesPageSize = useAppSelector((state) => state.combinedNews.newYorkTimesPageSize);
+
+  const fromDate = useAppSelector((state) => state.combinedNews.startDate);
+  const toDate = useAppSelector((state) => state.combinedNews.endDate);
+
+  const newsApiEnabled = useAppSelector((state) => state.combinedNews.newsApiEnabled);
+  const guardianEnabled = useAppSelector((state) => state.combinedNews.guardianEnabled);
+  const newYorkTimesEnabled = useAppSelector((state) => state.combinedNews.newYorkTimesEnabled);
+
   const maxTotalPages = useAppSelector(selectMaxTotalPages);
 
   const dispatch = useAppDispatch();
@@ -56,9 +64,8 @@ export default function Home() {
     combinedNews = combinedNews.concat(formattedNews);
   }
 
-  
   return (
-    <main className="flex min-h-screen flex-col py-24 px-64" ref={scrollToTop}>
+    <main className="flex min-h-screen flex-col py-24 px-64" ref={scrollToTop}> 
       <div id="content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" >
         {
           combinedNews.map((article, index) => (
