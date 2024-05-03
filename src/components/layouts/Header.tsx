@@ -1,13 +1,15 @@
 'use client';
 import { HeaderDrawer } from "./Drawer";
-import { useState } from "react";
+import React, { useState } from "react";
 import { HiAdjustments, HiOutlineSearch } from "react-icons/hi";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, Label, MegaMenu, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";
-import { setFromDate } from "@/lib/features/combinedNews/combinedNewsSlice";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
+import CategoryDropDown, { DropDownOption } from "./NavBar/CategoryDropDown";
+import { NEWS_API_CATEGORY, NEWS_API_CATEGORY_ICONS, NEWS_SOURCE } from "@/lib/common/constants";
+import { HiPresentationChartLine, HiSparkles, HiNewspaper, HiHeart, HiOutlineCubeTransparent, HiOutlineDesktopComputer } from "react-icons/hi";
 export default function Header(){
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -52,7 +54,16 @@ export default function Header(){
       value={searchValue}
       onChange={onChangeSearch} 
       onKeyDown={handleSearchKeyPress}/>
-  )
+  );
+
+
+  const newsApiDropdown:DropDownOption[] = NEWS_API_CATEGORY.map((category, index) => {
+    return {
+      title: category,
+      icon: React.createElement(NEWS_API_CATEGORY_ICONS[index], {className: 'mr-1'}),
+      target: `/news_api/${category}`
+    }
+  });
 
     return (
         <header className={'header'}>
@@ -64,18 +75,19 @@ export default function Header(){
                         {TextInputComponent}
                     </div>
                 </div>
-                <nav className={'header-nav'}>
-                <ul>
-                    <li className="flex flex-row justify-center items-center md:hidden" onClick={onClickSearch}>
-                      <HiOutlineSearch />
-                      <span className="ml-2">Search</span>
-                    </li>
-                    <li className="flex flex-row justify-center items-center" onClick={openDrawer}>
-                        <HiAdjustments />
-                        <span className="ml-2">Filter</span>
-                    </li>
-                </ul>
-                </nav>
+                  <nav className={'header-nav flex flex-row'}>
+                    <CategoryDropDown title={NEWS_SOURCE.NEWS_API} dropdowns={newsApiDropdown}/>
+                    <ul>
+                        <li className="flex flex-row justify-center items-center md:hidden" onClick={onClickSearch}>
+                          <HiOutlineSearch />
+                          <span className="ml-2">Search</span>
+                        </li>
+                        <li className="flex flex-row justify-center items-center" onClick={openDrawer}>
+                            <HiAdjustments />
+                            <span className="ml-2">Filter</span>
+                        </li>
+                    </ul>
+                  </nav>
             </div>
             <Modal open={openModalSearch} showCloseIcon={false} onClose={()=>setOpenModalSearch(false)} center>
               <div className="flex flex-col">

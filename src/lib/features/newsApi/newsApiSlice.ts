@@ -41,7 +41,12 @@ export const newsApiSlice = createApi({
     tagTypes: ["NewsAPI"],
     endpoints: (build) => ({
       newsApiGetHeadline: build.query<NewsApiResponse, GetNewsQueryParameters>({
-        query: (params) => `top-headlines?` + getQueryString({pageSize: params.pageSize,page: params.page,country: COUNTRY}),
+        query: (params) => `top-headlines?` + getQueryString({
+          pageSize: params.pageSize,
+          page: params.page,
+          country: COUNTRY,
+          ...(params.category ? {category: params.category} : {})
+        }),
         providesTags: (result, error, params) => [{ type: "NewsAPI", page: params.page }],
       }),
       newsApiGetEverything: build.query<NewsApiResponse, GetNewsQueryParameters>({
@@ -53,7 +58,7 @@ export const newsApiSlice = createApi({
             language: NEWS_API_LANGUAGE,
             q: params.search,
             ...(params.fromDate ? {from: params.fromDate} : {}),
-            ...(params.toDate ? {to: params.toDate} : {})
+            ...(params.toDate ? {to: params.toDate} : {}),
           })
           return `everything?` + queryStringParameter;
         },

@@ -6,12 +6,12 @@ import { News } from "@/lib/common/types";
 
 interface NewsCardProps {
     article: News;
-    type: 'headlines' | 'search';
+    type: 'headlines' | 'search' | 'categories';
 }
 
 export default function NewsCard(props: NewsCardProps) {
     const {article, type} = props;
-    const cardClass = type === 'headlines' ? 'block max-w-sm' : 'block md:flex md:flex-row md:width-full'
+    const cardClass = type === 'search' ? 'block md:flex md:flex-row md:width-full' : 'block max-w-sm'
     return (
         <Link href={article.url} target="_blank" className={`${cardClass} bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700`}>
             <div>

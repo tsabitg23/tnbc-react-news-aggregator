@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Article, NewsApiResponse } from '../newsApi/newsApiSlice';
 import { GuardianApiResponse, GuardianArticleResult } from '../theGuardian/guardianApiSlice';
 import { News } from '@/lib/common/types';
-import { NEWS_SOURCE } from '@/lib/common/constants';
+import { NEW_YORK_TIMES_ASSET_URL, NEWS_SOURCE } from '@/lib/common/constants';
 import { RootState } from '@/lib/store';
 import { NewYorkTimesResult, NYTSearchDoc } from '../newYorkTimes/newYorkTimesSlice';
 import { set } from 'date-fns';
@@ -20,6 +20,7 @@ interface CombinedNewsState {
     newYorkTimesEnabled: boolean;
     startDate: string | null;
     endDate: string | null;
+    newsApiCategory: string;
 }
 
 interface UpdateTotalPagesPayload {
@@ -38,7 +39,8 @@ const initialState: CombinedNewsState = {
     newsApiTotalPages: 100,
     newYorkTimesTotalPages: 100,
     startDate: null,
-    endDate: null
+    endDate: null,
+    newsApiCategory: ''
 };
 
 export const combinedNewsData = createSlice({
@@ -106,7 +108,6 @@ export const combinedNewsData = createSlice({
         }
     },
     setFromDate(state, action: PayloadAction<string>){
-        console.log('setFromDate', action.payload,'===========')
         state.startDate = action.payload;
     },
     setToDate(state, action: PayloadAction<string>){
@@ -175,7 +176,7 @@ export const formatFromNewYorkTimes = (article: NewYorkTimesResult): News => {
       title: article.headline.main,
       description: '',
       publishedAt: article.pub_date,
-      imageUrl: hasImageMultimedia ? `https://www.nytimes.com/${article.multimedia[0].url}` : '',
+      imageUrl: hasImageMultimedia ? `${NEW_YORK_TIMES_ASSET_URL}${article.multimedia[0].url}` : '',
       url: article.web_url
     }
   }

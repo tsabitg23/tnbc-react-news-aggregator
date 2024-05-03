@@ -11,8 +11,9 @@ import { NewsApiResponse } from '@/lib/features/newsApi/newsApiSlice';
 import { GuardianApiQueryResponse } from '@/lib/features/theGuardian/guardianApiSlice';
 import { NewYorkTimesArticleSearchQueryResponse, NewYorkTimesTopStoriesQueryResponse } from '@/lib/features/newYorkTimes/newYorkTimesSlice';
 import { NEWS_SOURCE } from '@/lib/common/constants';
+import { capitalizeFirstLetter } from '@/lib/common/utils';
 
-type ScreenTypes = 'search' | 'headlines';
+type ScreenTypes = 'search' | 'headlines' | 'categories';
 
 interface NewsScreen {
     slug?: string;
@@ -20,17 +21,17 @@ interface NewsScreen {
     guardianData?: GuardianApiQueryResponse | undefined
     nytSearchData?: NewYorkTimesArticleSearchQueryResponse | undefined,
     nytTopStoriesData?: NewYorkTimesTopStoriesQueryResponse | undefined,
-    newsApiIsLoading: boolean;
-    guardianIsLoading: boolean;
-    nytIsLoading: boolean;
+    newsApiIsLoading?: boolean;
+    guardianIsLoading?: boolean;
+    nytIsLoading?: boolean;
     onChangePage: (page: number) => void;
     screenType: ScreenTypes;
 }
 
-function NewsScreenHeader(params: {resultCount?: number, onClickBack: () => void, slug: string}){
-    const {resultCount, onClickBack, slug} = params;
+function NewsScreenHeader(params: {resultCount?: number, onClickBack: () => void, slug: string, screenType: string}){
+    const {resultCount, onClickBack, slug, screenType} = params;
 
-    if(slug){
+    if(screenType === 'search'){
         return (
             <>
                 <div className="flex flex-row items-center mt-12 md:mt-0">
@@ -44,7 +45,7 @@ function NewsScreenHeader(params: {resultCount?: number, onClickBack: () => void
     } else {
        return (
         <div className="mb-4">
-            <h1 className="text-4xl font-bold">Headlines</h1>
+            <h1 className="text-4xl font-bold">{capitalizeFirstLetter(slug) || 'Headlines'}</h1>
         </div>
        )
     }
@@ -133,7 +134,7 @@ export default function NewsScreen(params:NewsScreen) {
     const gridTypes = getGridTypes(screenType)
     return (
         <main className="flex min-h-screen flex-col p-4 md:py-24 md:px-64" ref={scrollToTop}>
-            <NewsScreenHeader resultCount={resultCount} onClickBack={onClickBack} slug={params?.slug || ""}/>
+            <NewsScreenHeader resultCount={resultCount} onClickBack={onClickBack} slug={params?.slug || ""} screenType={params.screenType}/>
             <div id="content" className={`mt-4 ${gridTypes}`} >
                 {
                     combinedNews.map((article, index) => {

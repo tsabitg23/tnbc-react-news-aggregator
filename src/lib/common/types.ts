@@ -14,6 +14,7 @@ export interface GetNewsQueryParameters {
     search?: string;
     fromDate?: string | null;
     toDate?: string | null;
+    category?: string;
 }
 
 export interface NewYorkTimesQueryParameters extends GetNewsQueryParameters{
